@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies (workspace-aware)
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Build the frontend app
 WORKDIR /app/apps/frontend
