@@ -1,7 +1,8 @@
 FROM node:20-alpine
 
-# Install system dependencies for node-gyp and canvas
-RUN apk add --no-cache python3 make g++ cairo-dev pango-dev jpeg-dev giflib-dev
+# Install system dependencies for node-gyp and canvas, plus pnpm
+RUN apk add --no-cache python3 make g++ cairo-dev pango-dev jpeg-dev giflib-dev \
+  && npm install -g pnpm
 
 WORKDIR /app
 COPY . .
