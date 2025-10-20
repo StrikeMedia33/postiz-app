@@ -4,18 +4,18 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package*.json ./
-RUN npm install --production
-
-# Copy the rest of the app
+# Copy everything
 COPY . .
 
-# Build the Next.js app
+# Install dependencies (workspace-aware)
+RUN npm install
+
+# Build the frontend app
+WORKDIR /app/apps/frontend
 RUN npm run build
 
-# Expose the default Next.js port
+# Expose the port
 EXPOSE 3000
 
-# Start the app
+# Start the frontend app
 CMD ["npm", "start"]
