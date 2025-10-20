@@ -14,5 +14,8 @@ RUN npm install --legacy-peer-deps
 WORKDIR /app/apps/frontend
 RUN npm run build
 
-EXPOSE 3000
-CMD ["npm", "start"]
+# Expose the Render port
+EXPOSE 10000
+
+# Start the app on Render's assigned port
+CMD ["sh", "-c", "npm start -- -p ${PORT:-10000}"]
