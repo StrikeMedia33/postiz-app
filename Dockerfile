@@ -8,7 +8,12 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies (workspace-aware, skip peer-dep checks)
-RUN npm install --legacy-peer-deps
+# Use reliable npm registry mirror with retry logic
+RUN npm config set fetch-retries 5 \
+  && npm config set fetch-retry-mintimeout 20000 \
+  && npm config set fetch-retry-maxtimeout 120000 \
+  && npm config set registry https://registry.npmjs.org/ \
+  && npm install --legacy-peer-deps
 
 # Build the frontend app
 WORKDIR /app/apps/frontend
