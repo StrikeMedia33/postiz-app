@@ -1,21 +1,17 @@
-# Use Node.js LTS base image
 FROM node:20-alpine
 
-# Set working directory
-WORKDIR /app
+# Install system dependencies for node-gyp and canvas
+RUN apk add --no-cache python3 make g++ cairo-dev pango-dev jpeg-dev giflib-dev
 
-# Copy everything
+WORKDIR /app
 COPY . .
 
-# Install dependencies (workspace-aware)
+# Install dependencies (workspace-aware, skip peer-dep checks)
 RUN npm install --legacy-peer-deps
 
 # Build the frontend app
 WORKDIR /app/apps/frontend
 RUN npm run build
 
-# Expose the port
 EXPOSE 3000
-
-# Start the frontend app
 CMD ["npm", "start"]
