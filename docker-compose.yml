@@ -1,3 +1,27 @@
-# placeholder - we’ll add the real content in the next step
 version: '3.8'
-services: {}
+
+services:
+  postiz:
+    image: postiz/postiz:latest
+    container_name: postiz
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/postiz
+      - NEXTAUTH_SECRET=your-random-secret
+      - NEXTAUTH_URL=https://your-render-domain
+      - NEXT_PUBLIC_APP_URL=https://your-render-domain
+      - EMAIL_SERVER=smtp://user:password@smtp.yourdomain.com:587
+      - EMAIL_FROM=noreply@yourdomain.com
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=postiz
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
