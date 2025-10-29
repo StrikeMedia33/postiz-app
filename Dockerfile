@@ -3,8 +3,9 @@ FROM node:22-alpine AS base
 WORKDIR /app
 COPY package*.json ./
 COPY pnpm-lock.yaml* ./
+ENV PRISMA_SCHEMA_PATH=./libraries/nestjs-libraries/src/database/prisma/schema.prisma
 RUN npm install -g pnpm
-RUN pnpm install --no-frozen-lockfile
+RUN PRISMA_SCHEMA_PATH=$PRISMA_SCHEMA_PATH pnpm install --no-frozen-lockfile
 
 # ---- Build frontend and backend ----
 COPY . .
